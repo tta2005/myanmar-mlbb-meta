@@ -1,0 +1,20 @@
+name: Update Meta Data
+on:
+  schedule:
+    - cron: '0 0 * * *' # နေ့တိုင်း ည ၁၂ နာရီမှာ Run မယ်
+  workflow_dispatch: # လက်နဲ့လည်း နှိပ် Run လို့ရအောင်
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Scraper
+        run: python scraper.py
+      - name: Commit changes
+        run: |
+          git config --global user.name 'Meta Bot'
+          git config --global user.email 'bot@github.com'
+          git add .
+          git commit -m "Auto Update Meta"
+          git push
