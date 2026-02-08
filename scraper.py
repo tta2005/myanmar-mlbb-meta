@@ -1,54 +1,71 @@
-import requests
-from bs4 import BeautifulSoup
-
-def get_real_meta():
-    # MLBB Ranking Page ကနေ Data ဆွဲမယ်
-    url = "https://m.mobilelegends.com/en/rank"
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    
-    # ဤနေရာတွင် နမူနာအားဖြင့် Data ပုံစံကို တည်ဆောက်ပြထားပါသည်
-    # တကယ့် Site ကနေ HTML ဖတ်ပြီး Update လုပ်မည့် Logic
-    top_heroes = [
-        {"name": "Tigreal", "tier": "S", "wr": "54.8%", "tip": "Flicker + Ulti Timing ကို အထူးဂရုစိုက်ပါ။"},
-        {"name": "Nolan", "tier": "S", "wr": "53.2%", "tip": "Blue Buff မပါရင် Nolan က ဘာမှလုပ်လို့မရတာ သတိပြုပါ။"},
-        {"name": "Vexana", "tier": "S", "wr": "52.5%", "tip": "Lord ဆိုင်တဲ့အချိန်မှာ Ulti ကို အမှန်ကန်ဆုံးသုံးပါ။"},
-        {"name": "Mathilda", "tier": "A", "wr": "51.9%", "tip": "အသင်းသားတွေ လိုက်နိုင်မယ့် အနေအထားမှ ဝင်ပါ။"}
-    ]
-    return top_heroes
+import os
 
 def update_html():
-    heroes = get_real_meta()
+    # ဒီမှာ ပြချင်တဲ့ Meta Heroes တွေကို ထည့်ပါ (နမူနာ ၃ ကောင်)
+    heroes = [
+        {
+            "name": "Tigreal", 
+            "tier": "S", 
+            "wr": "54.2%", 
+            "tip": "Flicker + Ulti ကို Timing ကိုက်ကိုက်သုံးပါ။ Tank ဆိုတာထက် Game Changer လို့ မှတ်ယူပါ",
+            "counters": "Diggie, Akai, Valir"
+        },
+        {
+            "name": "Nolan", 
+            "tier": "S", 
+            "wr": "53.8%", 
+            "tip": "Energy ထိန်းဖို့ Blue Buff ကို အဓိကထားစားပါ။ Dash Skill တွေကို ပညာသားပါပါသုံးပါ",
+            "counters": "Khufra, Minsitthar, Saber"
+        },
+        {
+            "name": "Vexana", 
+            "tier": "A", 
+            "wr": "52.1%", 
+            "tip": "Passive ပေါက်အောင် Skill တွေကို စုပစ်ပါ။ Lord ဆိုင်ရင် Ulti ကို အသေအချာ သုံးပါ",
+            "counters": "Helcurt, Natalia, Chou"
+        }
+    ]
     
     # HTML Card များ တည်ဆောက်ခြင်း
     cards_html = ""
     for h in heroes:
+        tier_class = "tier-s" if h['tier'] == "S" else "tier-a"
         cards_html += f'''
-        <div class="bg-slate-800 p-5 rounded-xl border border-slate-600 hover:border-yellow-500 transition shadow-lg">
-            <div class="flex justify-between items-center mb-3">
-                <h3 class="text-xl font-bold">{h['name']}</h3>
-                <span class="bg-red-600 text-xs px-2 py-1 rounded text-white font-bold">Tier {h['tier']}</span>
+            <div class="hero-card p-6 rounded-3xl relative overflow-hidden">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">{h['name']}</h3>
+                        <p class="text-sm text-slate-400 font-mono">Win Rate: {h['wr']}</p>
+                    </div>
+                    <span class="{tier_class} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-red-900/20">Tier {h['tier']}</span>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl mb-4 border-l-4 border-yellow-500">
+                    <p class="text-yellow-400 text-sm leading-relaxed">"{h['tip']}"</p>
+                </div>
+                <div class="text-xs text-slate-500">
+                    <strong>Counters:</strong> {h['counters']}
+                </div>
             </div>
-            <p class="text-sm text-slate-400 mb-4 font-mono">Win Rate: {h['wr']}</p>
-            <p class="text-yellow-400 text-sm leading-relaxed">"{h['tip']}"</p>
-        </div>
         '''
 
-    # index.html ကို အလိုအလျောက် Update လုပ်ခြင်း
+    # index.html ကို ဖတ်ပြီး Update လုပ်ခြင်း
     with open('index.html', 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # id="hero-list" ရှိတဲ့ နေရာကြားထဲကို Data အသစ် ထိုးထည့်မယ်
-    start_tag = '<div id="hero-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">'
-    end_tag = '</div>\n    </div>\n\n    <footer'
+    # id="hero-list" နေရာကို ရှာပြီး အစားထိုးမယ်
+    start_tag = '<div id="hero-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">'
+    end_tag = '</div>\n    </main>'
     
-    split_content = content.split(start_tag)
-    remaining_content = split_content[1].split(end_tag)
-    
-    new_html = split_content[0] + start_tag + cards_html + end_tag + remaining_content[1]
-
-    with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(new_html)
-    print("Website updated successfully!")
+    try:
+        parts = content.split(start_tag)
+        remaining = parts[1].split(end_tag)
+        new_content = parts[0] + start_tag + cards_html + end_tag + remaining[1]
+        
+        with open('index.html', 'w', encoding='utf-8') as f:
+            f.write(new_content)
+        print("Success: Meta Hub Updated!")
+    except Exception as e:
+        print(f"Error: HTML structure matching failed. {e}")
 
 if __name__ == "__main__":
     update_html()
