@@ -5,60 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Myanmar MLBB Meta Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu&display=swap');
-        body { font-family: 'Pyidaungsu', sans-serif; background-color: #0f172a; color: white; }
+        body { 
+            font-family: 'Pyidaungsu', sans-serif; 
+            background: #0f172a; 
+            color: #e2e8f0;
+            background-image: radial-gradient(circle at top right, #1e293b, #0f172a);
+        }
+        .hero-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hero-card:hover {
+            transform: translateY(-8px);
+            border-color: #eab308;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .tier-s { background: #ef4444; }
+        .tier-a { background: #f97316; }
+        .tier-b { background: #eab308; }
     </style>
 </head>
-<body>
-    <nav class="p-5 bg-slate-900 border-b border-slate-700 shadow-xl">
-        <h1 class="text-2xl font-bold text-yellow-500 text-center">🇲🇲 MLBB Meta Hub (MM)</h1>
-    </nav>
+<body class="min-h-screen pb-20">
 
-    <div class="container mx-auto p-5">
-        <h2 class="text-xl mb-6 text-slate-400 text-center">လက်ရှိ Patch ၏ Meta Hero များ</h2>
-        
-        <div id="hero-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-slate-800 p-5 rounded-xl border border-slate-600 hover:border-yellow-500 transition shadow-lg">
-            <div class="flex justify-between items-center mb-3">
-                <h3 class="text-xl font-bold">Tigreal</h3>
-                <span class="bg-red-600 text-xs px-2 py-1 rounded text-white font-bold">Tier S</span>
-            </div>
-            <p class="text-sm text-slate-400 mb-4 font-mono">Win Rate: 54.8%</p>
-            <p class="text-yellow-400 text-sm leading-relaxed">"Flicker + Ulti Timing ကို အထူးဂရုစိုက်ပါ။"</p>
+    <header class="py-10 text-center border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+        <h1 class="text-4xl font-black text-yellow-500 tracking-tighter italic">🇲🇲 MLBB META HUB</h1>
+        <p class="text-slate-400 mt-2 font-medium">မြန်မာကစားသမားများအတွက် Professional Meta Analysis</p>
+        <div class="mt-4 flex justify-center gap-4 text-xs">
+            <span class="flex items-center gap-1"><span class="w-3 h-3 tier-s rounded-full"></span> Tier S (OP)</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 tier-a rounded-full"></span> Tier A (Strong)</span>
         </div>
-        
-        <div class="bg-slate-800 p-5 rounded-xl border border-slate-600 hover:border-yellow-500 transition shadow-lg">
-            <div class="flex justify-between items-center mb-3">
-                <h3 class="text-xl font-bold">Nolan</h3>
-                <span class="bg-red-600 text-xs px-2 py-1 rounded text-white font-bold">Tier S</span>
-            </div>
-            <p class="text-sm text-slate-400 mb-4 font-mono">Win Rate: 53.2%</p>
-            <p class="text-yellow-400 text-sm leading-relaxed">"Blue Buff မပါရင် Nolan က ဘာမှလုပ်လို့မရတာ သတိပြုပါ။"</p>
-        </div>
-        
-        <div class="bg-slate-800 p-5 rounded-xl border border-slate-600 hover:border-yellow-500 transition shadow-lg">
-            <div class="flex justify-between items-center mb-3">
-                <h3 class="text-xl font-bold">Vexana</h3>
-                <span class="bg-red-600 text-xs px-2 py-1 rounded text-white font-bold">Tier S</span>
-            </div>
-            <p class="text-sm text-slate-400 mb-4 font-mono">Win Rate: 52.5%</p>
-            <p class="text-yellow-400 text-sm leading-relaxed">"Lord ဆိုင်တဲ့အချိန်မှာ Ulti ကို အမှန်ကန်ဆုံးသုံးပါ။"</p>
-        </div>
-        
-        <div class="bg-slate-800 p-5 rounded-xl border border-slate-600 hover:border-yellow-500 transition shadow-lg">
-            <div class="flex justify-between items-center mb-3">
-                <h3 class="text-xl font-bold">Mathilda</h3>
-                <span class="bg-red-600 text-xs px-2 py-1 rounded text-white font-bold">Tier A</span>
-            </div>
-            <p class="text-sm text-slate-400 mb-4 font-mono">Win Rate: 51.9%</p>
-            <p class="text-yellow-400 text-sm leading-relaxed">"အသင်းသားတွေ လိုက်နိုင်မယ့် အနေအထားမှ ဝင်ပါ။"</p>
-        </div>
-        </div>
-    </div>
+    </header>
 
-    <footer class="text-center p-10 text-slate-500 text-sm">
-        © 2024 Myanmar MLBB Community Project
+    <main class="container mx-auto px-4 mt-12">
+        <div id="hero-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="hero-card p-6 rounded-3xl relative overflow-hidden">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Tigreal</h3>
+                        <p class="text-sm text-slate-400 font-mono">Win Rate: 54.2%</p>
+                    </div>
+                    <span class="tier-s text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-red-900/20">Tier S</span>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl mb-4 border-l-4 border-yellow-500">
+                    <p class="text-yellow-400 text-sm leading-relaxed">"Flicker + Ulti ကို Timing ကိုက်ကိုက်သုံးပါ။ Tank ဆိုတာထက် Game Changer လို့ မှတ်ယူပါ"</p>
+                </div>
+                <div class="text-xs text-slate-500">
+                    <strong>Counters:</strong> Diggie, Akai, Valir
+                </div>
+            </div>
+
+            <div class="hero-card p-6 rounded-3xl relative overflow-hidden">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Nolan</h3>
+                        <p class="text-sm text-slate-400 font-mono">Win Rate: 53.8%</p>
+                    </div>
+                    <span class="tier-s text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-red-900/20">Tier S</span>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl mb-4 border-l-4 border-yellow-500">
+                    <p class="text-yellow-400 text-sm leading-relaxed">"Energy ထိန်းဖို့ Blue Buff ကို အဓိကထားစားပါ။ Dash Skill တွေကို ပညာသားပါပါသုံးပါ"</p>
+                </div>
+                <div class="text-xs text-slate-500">
+                    <strong>Counters:</strong> Khufra, Minsitthar, Saber
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-20 text-center border-t border-slate-800 pt-10 px-4">
+        <p class="text-slate-500 text-sm">© 2024 Myanmar MLBB Community Project</p>
+        <p class="text-slate-600 text-xs mt-2 italic">မြန်မာ Esports လောက တိုးတက်ဖို့ ဝိုင်းဝန်းကူညီကြပါစို့</p>
     </footer>
+
 </body>
 </html>
